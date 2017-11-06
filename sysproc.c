@@ -89,3 +89,56 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+extern struct proc* procstate_proc(void);
+int sys_procstate(void) {
+  char *s;
+  struct proc *p = '\0';
+  char *buf;
+ 	int size;
+  
+  if (argint(0, &size) <0){
+    return -1;
+  }
+  if (argptr(1, &buf,size) <0){
+    return -1;
+  }
+  
+  s = buf;
+  p = procstate_proc();
+  
+  while(buf + size > s && p->state != UNUSED){
+    *(int *)s = p->state;
+    s+=4;
+		*(int *)s = p-> pid;
+    s+=4;
+    *(int *)s = p->sz;
+		s+=4;
+    memmove(s,p->name,16);
+    s+=16;
+    p++;
+  } 
+  return 0;	
+}
+int*
+sys_uv2p(void* va) {
+	
+	return (int *)va;
+	//pde_t *curprocPGDIR, *curprocPGTAB, *curprocPDE;
+	//get process's PDE
+	//curprocPGDIR = myproc()->pgdir;
+
+	//curprocPDE = &curprocPGDIR[PDX(va)];
+	//if (*curprocPDE & PTE_P) {
+	//	curprocPGTAB = (pte_t*)P2V(PTE_ADDR(*curprocPDE));
+	//	} else {
+	//		cprintf("PTE not found\n");
+	//		return "error";
+	//}
+	
+	//calculate offset
+	//unsigned int offset = (uint)va & 0xFFF;
+	//pte_t *curprocPTE;
+	//curprocPTE = &curprocPGTAB[PTX(va)];
+	//(char*)(PTE_ADDR(*curprocPTE)));
+}
