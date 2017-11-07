@@ -4,16 +4,15 @@
 #include "mmu.h"
 
 int main(int argc, char *argv[]) {
-	int* test = malloc(sizeof(int));
-	*test = 2;
-	
-	int* pdxval;	
+	int* test = (int*) malloc(sizeof(int));
+	*test = 10;
+	int pdxval;	
 	if ((pdxval = uv2p(test))) {
 		printf(1,"Virtual address is: %p\n",test);
-		printf(1,"Supposed virtual address is: %p\n",pdxval);
+		printf(1,"Physical address is: %p\n",pdxval);
 
 	} else {
-		printf(1, "doesn't work\n");
+		printf(1, "Error\n");
 	}
 	exit();
 }

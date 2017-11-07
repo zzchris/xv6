@@ -120,25 +120,30 @@ int sys_procstate(void) {
   } 
   return 0;	
 }
-int*
-sys_uv2p(void* va) {
-	
-	return (int *)va;
-	//pde_t *curprocPGDIR, *curprocPGTAB, *curprocPDE;
-	//get process's PDE
-	//curprocPGDIR = myproc()->pgdir;
+int
+sys_uv2p(void) {
+	int va;
+	argint(0,&va);
 
-	//curprocPDE = &curprocPGDIR[PDX(va)];
-	//if (*curprocPDE & PTE_P) {
-	//	curprocPGTAB = (pte_t*)P2V(PTE_ADDR(*curprocPDE));
-	//	} else {
-	//		cprintf("PTE not found\n");
-	//		return "error";
-	//}
+	pde_t *curprocPGDIR, *curprocPGTAB, *curprocPDE;
+	//get page directory
+	curprocPGDIR = myproc()->pgdir;
+
+	//get process's PDE
+	curprocPDE = &curprocPGDIR[PDX(va)];
+	if (*curprocPDE & PTE_P) {
+		//get page table
+		curprocPGTAB = (pte_t*)P2V(PTE_ADDR(*curprocPDE));
+		} else {
+			cprintf("Page table not found\n");
+			return -1;
+	}
 	
 	//calculate offset
-	//unsigned int offset = (uint)va & 0xFFF;
-	//pte_t *curprocPTE;
-	//curprocPTE = &curprocPGTAB[PTX(va)];
-	//(char*)(PTE_ADDR(*curprocPTE)));
+	unsigned int offset = (uint)va & 0xFFF;
+	pte_t *curprocPTE;
+	//get page table entry
+	curprocPTE = &curprocPGTAB[PTX(va)];
+	//physical address = pte + offset
+	return (PTE_ADDR(*curprocPTE)+offset);
 }
