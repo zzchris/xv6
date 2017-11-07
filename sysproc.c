@@ -123,7 +123,9 @@ int sys_procstate(void) {
 int
 sys_uv2p(void) {
 	int va;
-	argint(0,&va);
+	if (argint(0,&va) < 0) {
+		return -1;
+	}
 
 	pde_t *curprocPGDIR, *curprocPGTAB, *curprocPDE;
 	//get page directory
