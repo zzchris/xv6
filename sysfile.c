@@ -457,7 +457,8 @@ sys_lseek(void) {
 	//check if offset < 0
 	offset = (uint)offset;
 	if (offset < 0) return -1;
-
+	//check if offset is greater than file size
+	if (offset > f->ip->size) return -1;
 	f->off = offset;
 	return 0;
 }
