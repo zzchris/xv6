@@ -177,6 +177,7 @@ UPROGS=\
 	_zombie\
 	_ps\
 	_PA3\
+	_PA4\
 	_tracemallocfree\
 
 fs.img: mkfs README $(UPROGS)
@@ -247,7 +248,7 @@ qemu-nox-gdb: fs.img xv6.img .gdbinit
 EXTRA=\
 	mkfs.c ulib.c user.h cat.c echo.c forktest.c grep.c kill.c\
 	ln.c ls.c mkdir.c rm.c stressfs.c ps.c traceread.c usertests.c wc.c zombie.c\
-	printf.c umalloc.c tracemallocfree.c PA3.c\
+	printf.c umalloc.c tracemallocfree.c PA3.c PA4.c\
 	README dot-bochsrc *.pl toc.* runoff runoff1 runoff.list\
 	.gdbinit.tmpl gdbutil\
 

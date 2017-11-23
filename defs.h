@@ -121,7 +121,9 @@ int             wait(void);
 void            wakeup(void*);
 void            yield(void);
 int 						ps(void);
-int*							uv2p(void*);
+int*						uv2p(void*);
+//int 						lseek(void*)
+
 // swtch.S
 void            swtch(struct context**, struct context*);
 

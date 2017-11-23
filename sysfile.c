@@ -443,3 +443,21 @@ sys_pipe(void)
   fd[1] = fd1;
   return 0;
 }
+
+int
+sys_lseek(void) {
+	int fd;
+	int offset;
+	struct file *f;
+
+	//retrieve arguments
+	if (argfd(0, &fd, &f) < 0) return -1;
+	if (argint(1, &offset)< 0) return -1;
+	
+	//check if offset < 0
+	offset = (uint)offset;
+	if (offset < 0) return -1;
+
+	f->off = offset;
+	return 0;
+}
